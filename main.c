@@ -66,13 +66,15 @@ void get_table_csv(char *name, unsigned int width) {
 	size_t len = 0;
 	ssize_t read;
 	int max_cells = count_max_cells(name);
-	print_char_multiple_times(BORDER_CHAR, max_cells * (width + 1) + 1);
+	printf("%c", CORNER_BORDER_CHAR);
+	print_char_multiple_times(HORIZONTAL_BORDER_CHAR, max_cells * (width + 1) + 1 - 2);
+	printf("%c", CORNER_BORDER_CHAR);
 	printf("\n");
 	
 	while ((read = getline(&line, &len, f)) != -1) {
 		unsigned int chars_written = 0;
 		unsigned int cells_written = 1;
-		printf("%c", BORDER_CHAR);
+		printf("%c", VERTICAL_BORDER_CHAR);
 		for (int i = 0; i < (int)strlen(line) - 1; ++i) { // -1 cause last char is \n
 			if ((line[i] != DELIMITER) && chars_written < width) {
 				printf("%c", line[i]);
@@ -84,22 +86,22 @@ void get_table_csv(char *name, unsigned int width) {
 				}
 				cells_written++;
 				chars_written = 0;
-				printf("%c", BORDER_CHAR);
+				printf("%c", VERTICAL_BORDER_CHAR);
 			}
 		}
 		if ((int)cells_written != max_cells) {
 			for (int i = 0; i < (int)max_cells - (int)cells_written; ++i) {
-				printf("%c", BORDER_CHAR);
+				printf("%c", VERTICAL_BORDER_CHAR);
 				print_char_multiple_times(SPACE, width);
 			}
 		}
-		printf("%c", BORDER_CHAR);
+		printf("%c", VERTICAL_BORDER_CHAR);
+		printf("\n");
+		printf("%c", CORNER_BORDER_CHAR);
+		print_char_multiple_times(HORIZONTAL_BORDER_CHAR, max_cells * (width + 1) + 1 - 2);
+		printf("%c", CORNER_BORDER_CHAR);
 		printf("\n");
 	}
-
-	print_char_multiple_times(BORDER_CHAR, max_cells * (width + 1) + 1);
-	printf("\n");
-	
 	fclose(f);
 }
 
